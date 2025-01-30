@@ -29,11 +29,27 @@ thus generating a result like [this](https://github.com/mariofusco/quarkus-agent
 
 ## Parallelization
 
+In other cases it may not be necessary to use the output of an LLM as the input for a subsequent request, but a complex task can however require to perform multiple, but independent, LLM calls. In these situations those call can be performed in parallel, followed by an aggregator that combine their outcomes. 
+
 ![](images/parallel-pattern.png)
+
+To demonstrate how this could work this [second example](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/parallelization) has the purpose of suggesting a plan for a nice evening with a specific mood combining a movie and a meal that match that mood. The [rest endpoint](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/parallelization/EveningPlannerResource.java) achieving this goal calls 2 LLMs in parallel. The [first LLM](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/parallelization/MovieExpert.java) is a movie expert required to provide 3 titles of movies matching the given mood, while the [second one](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/parallelization/FoodExpert.java) is asked to do something similar providing 3 meals. When these LLM calls terminate the resulting 2 lists of 3 items each are aggregated to create a list of 3 amazing evening plans with a suggested movie and meal each.
+
+For instance calling asking to that endpoint to provide evening plans for a romantic mood:
 
 http://localhost:8080/evening/mood/romantic
 
-[EveningPlan[movie=1. The Notebook, meal=1. Candlelit Chicken Piccata], EveningPlan[movie=2. La La Land, meal=2. Rose Petal Risotto], EveningPlan[movie=3. Crazy, Stupid, Love., meal=3. Sunset Seared Scallops]]
+may result in a list like the following: 
+
+```
+[
+  EveningPlan[movie=1. The Notebook, meal=1. Candlelit Chicken Piccata], 
+  EveningPlan[movie=2. La La Land, meal=2. Rose Petal Risotto], 
+  EveningPlan[movie=3. Crazy, Stupid, Love., meal=3. Sunset Seared Scallops]
+]
+```
+
+In this case the tracing of the flow of invocations performed to fulfill this request shows, as expected, that the 2 LLM invocations are performed in parallel.
 
 ![](images/parallel-trace.png)
 
