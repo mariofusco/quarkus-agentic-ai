@@ -15,6 +15,6 @@ public interface GeoCodingService {
     @Path("/search")
     @ClientQueryParam(name = "count", value = "1")
     @Tool("Finds the latitude and longitude of a given city")
-    GeoResults search(@RestQuery String name);
+    GeoResults findCity(@RestQuery String name);
 
 }
