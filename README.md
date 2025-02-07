@@ -33,7 +33,7 @@ thus generating a result like [this](https://github.com/mariofusco/quarkus-agent
 
 ### Parallelization
 
-In other cases it may not be necessary to use the output of an LLM as the input for a subsequent request, but a complex task can however require to perform multiple, but independent, LLM calls. In these situations those call can be performed in parallel, followed by an aggregator that combine their outcomes. 
+In other cases it may not be necessary to use the output of an LLM as the input for a subsequent request, but a complex task can however require to perform multiple, but independent, LLM calls. In these situations those calls can be performed in parallel, followed by an aggregator that combine their outcomes. 
 
 To demonstrate how this could work this [second example](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/parallelization) has the purpose of suggesting a plan for a nice evening with a specific mood combining a movie and a meal that match that mood. The [rest endpoint](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/parallelization/EveningPlannerResource.java) achieving this goal calls 2 LLMs in parallel. The [first LLM](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/parallelization/MovieExpert.java) is a movie expert required to provide 3 titles of movies matching the given mood, while the [second one](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/parallelization/FoodExpert.java) is asked to do something similar providing 3 meals. When these LLM calls terminate the resulting 2 lists of 3 items each are aggregated to create a list of 3 amazing evening plans with a suggested movie and meal each.
 
@@ -73,7 +73,7 @@ the first LLM categorizes this request as a medical one and the router forward i
 
 ## Agents
 
-Agents differ from the workflow patterns discussed so far because the control flow is entirely delegated to LLMs, that typically invoke tools to complete determinate subtask, instead of being implemented programmatically. These tools can be seen as stateful functions, opportunistically invoked by the LLM to achieve its goal and implemented in a variety of different technologies, like simple imperative methods, external web services or even other LLMs.
+Agents differ from the workflow patterns discussed so far because the control flow is entirely delegated to LLMs, that typically invoke tools to complete determinate subtask, instead of being implemented programmatically. These tools can be seen as stateless functions, opportunistically invoked by the LLM to achieve its goal and implemented in a variety of different technologies, like simple imperative methods, external web services or even other LLMs.
 
 ### The weather forecast agent
 
@@ -85,17 +85,19 @@ This [first example](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/
 
 ![](images/weather-agent.png)
 
-It's possible to put at work the [rest endpoint](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/aiastool/WeatherResource.java) exposing this agent-based weather service, for example asking the what's the weather in Rome    
+It's possible to put at work the [rest endpoint](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/aiastool/WeatherResource.java) exposing this agent-based weather service, for example asking it what's the weather in Rome    
 
 http://localhost:8080/weather/city/Rome
 
 and receive an answer like the following.
 
 ```
-The weather in Rome today will have a maximum temperature of 14.3°C, minimum temperature of 2.0°C, no precipitation expected, and the wind speed will be up to 5.6 km/h. The overall weather condition is expected to be cloudy.
+The weather in Rome today will have a maximum temperature of 14.3°C, minimum temperature of 2.0°C. 
+No precipitation expected, and the wind speed will be up to 5.6 km/h. 
+The overall weather condition is expected to be cloudy.
 ```
 
-In essence this control flow is quite similar to what described in the prompt chaining workflow, where the user input is sequentially transformed in steps (in this case going from the prompt, to the name of a city contained in that prompt, to the geographical coordinates of that city, to the weather forecasts at those coordinates), but as anticipated with the major difference that this time the sequence of steps is directly scheduled by the LLM instead of being orchestrated programmatically. 
+In essence this control flow is quite similar to what described in the prompt chaining workflow, where the user input is sequentially transformed in steps (in this case going from the prompt, to the name of the city contained in that prompt, to the geographical coordinates of that city, to the weather forecasts at those coordinates), but as anticipated this time the major difference is in the fact that the sequence of steps is directly scheduled by the LLM instead of being externally orchestrated in a programmatic way. 
 
 ### A more general purpose AI agent
 
