@@ -21,7 +21,7 @@ A typical use case where to apply this technique is content creation, like adver
 
 ![](images/chaining-pattern.png)
 
-In this case it is pretty straightforward to expose this service through a [rest endpoint](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/promptchaining/AudienceEditor.java) that simply invokes these AI services one after the other, making the editors to  rewrite or refine the content produced by the first creative writer.
+In this case it is pretty straightforward to expose this service through a [rest endpoint](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/promptchaining/WriterResource.java) that simply invokes these AI services one after the other, making the editors to  rewrite or refine the content produced by the first creative writer.
 
 The rest endpoint allows to define the topic, style and audience of the novel to be produced, so for example it would be possible to obtain a drama about dogs having kids as target audience calling this URL:
 
