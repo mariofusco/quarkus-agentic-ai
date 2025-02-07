@@ -17,9 +17,9 @@ As anticipated AI workflows are pattern where the employment of different LLM-ba
 
 Prompt chaining is probably the simplest, yet powerful and effective, technique in agentic AI workflows where the output of one prompt becomes the input for the next, enabling complex, multi-step reasoning or task execution. It is ideal for situations where there is a clear way to decompose a complex task, in smaller and better delimited parts, thus also reducing the possibilities of hallucinations or other LLMs misbehaving. 
 
-![](images/chaining-pattern.png)
-
 A typical use case where to apply this technique is content creation, like advertising, or novel writing. For instance, this [first example](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/promptchaining) leverages this patterns to implement a creative writing and editing workflow, where a [first AI service](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/promptchaining/CreativeWriter.java) generates a draft of a story on a topic provided by the user, while subsequently a [second one](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/promptchaining/StyleEditor.java) rewrites the draft to make it more coherent with a determined style, and a [third one](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/promptchaining/AudienceEditor.java) execute a final edit to make it a good fit for the required audience.
+
+![](images/chaining-pattern.png)
 
 In this case it is pretty straightforward to expose this service through a [rest endpoint](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/promptchaining/AudienceEditor.java) that simply invokes these AI services one after the other, making the editors to  rewrite or refine the content produced by the first creative writer.
 
@@ -35,9 +35,9 @@ thus generating a result like [this](https://github.com/mariofusco/quarkus-agent
 
 In other cases it may not be necessary to use the output of an LLM as the input for a subsequent request, but a complex task can however require to perform multiple, but independent, LLM calls. In these situations those call can be performed in parallel, followed by an aggregator that combine their outcomes. 
 
-![](images/parallel-pattern.png)
-
 To demonstrate how this could work this [second example](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/parallelization) has the purpose of suggesting a plan for a nice evening with a specific mood combining a movie and a meal that match that mood. The [rest endpoint](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/parallelization/EveningPlannerResource.java) achieving this goal calls 2 LLMs in parallel. The [first LLM](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/parallelization/MovieExpert.java) is a movie expert required to provide 3 titles of movies matching the given mood, while the [second one](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/parallelization/FoodExpert.java) is asked to do something similar providing 3 meals. When these LLM calls terminate the resulting 2 lists of 3 items each are aggregated to create a list of 3 amazing evening plans with a suggested movie and meal each.
+
+![](images/parallel-pattern.png)
 
 For instance asking that endpoint to provide evening plans for a romantic mood:
 
@@ -61,9 +61,9 @@ In this case the tracing of the flow of invocations performed to fulfill this re
 
 Another common situation is the need of directing tasks, requiring a specific handling, to specialized models, tools, or processes based on determined criteria. In these cases the routing workflow allows to dynamically allocate tasks to the most suitable component.
 
-![](images/routing-pattern.png)
-
 [This example](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/routing) shows how this pattern could be applied in a simple scenario where a user asks a question that has to be redirected to a [legal](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/routing/LegalExpert.java), [medical](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/routing/MedicalExpert.java) or [technical](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/routing/TechnicalExpert.java) expert in order to be answered in the most accurate way. The categorization of the user's request is performed by [another LLM service](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/routing/CategoryRouter.java), so that the [router service](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/routing/RouterService.java) is able to send it to the right expert.
+
+![](images/routing-pattern.png)
 
 In this way when the user calls the [rest endpoint](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/routing/ExpertAssistanceResource.java) exposing this service writing something like: "I broke my leg what should I do", 
 
