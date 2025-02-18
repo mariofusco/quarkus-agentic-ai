@@ -151,6 +151,10 @@ The final architectural design of the chatbot could be visualized in this way.
 
 ![](images/restaurant-agent.png)
 
-Once the customer provides all necessary details, the chatbot confirms the booking and presents a summary of the reservation. and the final booking is then stored in the database. A typical example of user interaction could be something like this:
+Once the customer provides all necessary details, the chatbot confirms the booking and presents a summary of the reservation. and the final booking is then stored in the database. It is possible to give a try to this chatbot accessing the URL: 
+
+http://localhost:8080/restaurant.html
+
+and a typical example of user interaction could be something like this:
 
 ![](images/restaurant.png)
