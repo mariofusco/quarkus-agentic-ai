@@ -14,7 +14,7 @@ public interface WeatherForecastService {
     @GET
     @Path("/forecast")
     @Tool("Forecasts the weather for the given latitude and longitude")
-    @ClientQueryParam(name = "forecast_days", value = "1")
+    @ClientQueryParam(name = "forecast_days", value = "7")
     @ClientQueryParam(name = "daily", value = {
             "temperature_2m_max",
             "temperature_2m_min",
