@@ -135,3 +135,21 @@ Time (seconds) = Distance (meters) / Speed (m/s)
 
 So, it would take approximately 9.62 seconds for a leopard running at full speed to run through Pont des Arts.
 ```
+
+### Agents and Conversational AI
+
+Agents can function as chatbots, enabling them to handle multiple users in parallel, each with their own independent conversation. 
+This requires managing the state of each conversation, often referred to as memories (the set of messages already exchanged with the LLM).
+
+The restaurant booking example illustrates this pattern in action. 
+The chatbot assists users in reserving a table at a restaurant. 
+Beyond handling reservations, it can also check the weather forecast if a customer requests an outdoor table.
+
+Once the user provides all necessary details, the chatbot confirms the booking and presents a summary of the reservation. 
+The final booking details are then stored in a database.
+
+![](images/restaurant-agent.png)
+
+Here is an example of interaction:
+
+![](images/restaurant.png)
