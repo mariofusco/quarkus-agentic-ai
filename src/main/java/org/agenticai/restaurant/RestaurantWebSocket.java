@@ -10,8 +10,11 @@ import org.jetbrains.annotations.Blocking;
 @WebSocket(path = "/restaurant")
 public class RestaurantWebSocket {
 
-    @Inject
-    RestaurantAgent restaurantAgent;
+    private final RestaurantAgent restaurantAgent;
+
+    public RestaurantWebSocket(RestaurantAgent restaurantAgent) {
+        this.restaurantAgent = restaurantAgent;
+    }
 
     @OnTextMessage
     String onMessage(String message) {

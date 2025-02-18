@@ -16,14 +16,17 @@ import java.util.concurrent.Executor;
 @Path("/evening")
 public class EveningPlannerResource {
 
-    @Inject
-    MovieExpert movieExpert;
+    private final MovieExpert movieExpert;
 
-    @Inject
-    FoodExpert foodExpert;
+    private final FoodExpert foodExpert;
 
-    @Inject
-    Vertx vertx;
+    private final Vertx vertx;
+
+    public EveningPlannerResource(MovieExpert movieExpert, FoodExpert foodExpert, Vertx vertx) {
+        this.movieExpert = movieExpert;
+        this.foodExpert = foodExpert;
+        this.vertx = vertx;
+    }
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
