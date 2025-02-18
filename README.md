@@ -138,18 +138,19 @@ So, it would take approximately 9.62 seconds for a leopard running at full speed
 
 ### Agents and Conversational AI
 
-Agents can function as chatbots, enabling them to handle multiple users in parallel, each with their own independent conversation. 
-This requires managing the state of each conversation, often referred to as memories (the set of messages already exchanged with the LLM).
+The flexibility of AI agents can become even more relevant when used in services not intended to fulfil a single request, but needing to have a longer conversation with the user in order to achieve their goal. For instance agents can function as chatbots, enabling them to handle multiple users in parallel, each with their own independent conversation. This requires managing the state of each conversation, often referred to as memories (the set of messages already exchanged with the LLM).
 
-The restaurant booking example illustrates this pattern in action. 
-The chatbot assists users in reserving a table at a restaurant. 
-Beyond handling reservations, it can also check the weather forecast if a customer requests an outdoor table.
+A [chatbot of a restaurant booking system](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/restaurant/RestaurantAgent.java), designed to chat with customers and collect their data and requirements, represents an interesting practical application of this pattern. When the agent completes that information gathering process, the chatbot uses a [tool accessing the database](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/restaurant/booking/BookingService.java) of existing reservations to both check if there is still a table available for the customers needs and to place a booking of that table if so. To assist the customer in deciding whether it is appropriate to eat outside or not, the agent can also reuse, as a second tool, the [weather forecast service](https://github.com/mariofusco/quarkus-agentic-ai/blob/main/src/main/java/org/agenticai/restaurant/weather/WeatherService.java) implemented in one of the former examples, passing to it the geographic coordinates of the restaurant.
 
-Once the user provides all necessary details, the chatbot confirms the booking and presents a summary of the reservation. 
-The final booking details are then stored in a database.
+```properties
+restaurant.location.latitude=45
+restaurant.location.longitude=5
+```
+
+The final architectural design of the chatbot could be visualized in this way.
 
 ![](images/restaurant-agent.png)
 
-Here is an example of interaction:
+Once the customer provides all necessary details, the chatbot confirms the booking and presents a summary of the reservation. and the final booking is then stored in the database. A typical example of user interaction could be something like this:
 
 ![](images/restaurant.png)
