@@ -10,8 +10,11 @@ import jakarta.ws.rs.core.MediaType;
 @Path("/expert")
 public class ExpertAssistanceResource {
 
-    @Inject
-    RouterService routerService;
+    private final RouterService routerService;
+
+    public ExpertAssistanceResource(RouterService routerService) {
+        this.routerService = routerService;
+    }
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)

@@ -10,8 +10,11 @@ import org.agenticai.aiastool.WeatherForecastAgent;
 @Path("/ask")
 public class AgenticChatbotResource {
 
-    @Inject
-    IntelligentAgent agent;
+    private final IntelligentAgent agent;
+
+    public AgenticChatbotResource(IntelligentAgent agent) {
+        this.agent = agent;
+    }
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)

@@ -12,22 +12,23 @@ import java.util.function.UnaryOperator;
 @ApplicationScoped
 public class RouterService {
 
-    @Inject
-    CategoryRouter categoryRouter;
+    private final CategoryRouter categoryRouter;
 
-    @Inject
-    LegalExpert legalExpert;
+    private final LegalExpert legalExpert;
 
-    @Inject
-    MedicalExpert medicalExpert;
+    private final MedicalExpert medicalExpert;
 
-    @Inject
-    TechnicalExpert technicalExpert;
+    private final TechnicalExpert technicalExpert;
 
     private final Map<RequestType, UnaryOperator<String>> experts = new HashMap<>();
 
-    @PostConstruct
-    public void init() {
+    public RouterService(CategoryRouter categoryRouter, LegalExpert legalExpert, MedicalExpert medicalExpert,
+                         TechnicalExpert technicalExpert) {
+        this.categoryRouter = categoryRouter;
+        this.legalExpert = legalExpert;
+        this.medicalExpert = medicalExpert;
+        this.technicalExpert = technicalExpert;
+
         experts.put(RequestType.LEGAL, legalExpert::chat);
         experts.put(RequestType.MEDICAL, medicalExpert::chat);
         experts.put(RequestType.TECHNICAL, technicalExpert::chat);

@@ -10,14 +10,17 @@ import jakarta.ws.rs.core.MediaType;
 @Path("/write")
 public class WriterResource {
 
-    @Inject
-    CreativeWriter creativeWriter;
+    private final CreativeWriter creativeWriter;
 
-    @Inject
-    StyleEditor styleEditor;
+    private final StyleEditor styleEditor;
 
-    @Inject
-    AudienceEditor audienceEditor;
+    private final AudienceEditor audienceEditor;
+
+    public WriterResource(CreativeWriter creativeWriter, StyleEditor styleEditor, AudienceEditor audienceEditor) {
+        this.creativeWriter = creativeWriter;
+        this.styleEditor = styleEditor;
+        this.audienceEditor = audienceEditor;
+    }
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)

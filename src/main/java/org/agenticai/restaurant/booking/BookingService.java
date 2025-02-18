@@ -12,8 +12,11 @@ import java.util.List;
 @ApplicationScoped
 public class BookingService {
 
-    @ConfigProperty(name = "restaurant.capacity")
-    int capacity;
+    private final int capacity;
+
+    public BookingService(@ConfigProperty(name = "restaurant.capacity") int capacity) {
+        this.capacity = capacity;
+    }
 
     public boolean hasCapacity(LocalDate date, int partySize) {
         int sum = Booking.find("date", date).list().stream().map(b -> (Booking) b)
