@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .chat-container {
+            max-width: 800px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+        }
+        .chat-container .messages {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .chat-container .message {
+            margin-bottom: 10px;
+        }
+        .chat-container .user-message {
+            text-align: right;
+        }
+        .chat-container .bot-message {
+            text-align: left;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<h1 align="center">Restaurant booking chatbot</h1>
+
+<div class="chat-container">
+    <ul class="messages"></ul>
+    <textarea id="user-input" placeholder="How can I help you?" cols="90"></textarea>
+    <button onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+    const protocol = (window.location.protocol === 'https:') ? 'wss' : 'ws';
+    const socket = new WebSocket(protocol + '://' + window.location.host + '/restaurant');
+
+    socket.onmessage = function(event) {
+        displayMessage(event.data, 'bot');
+    };
+
+    function displayMessage(message, sender) {
+        const messagesContainer = document.querySelector('.messages');
+        const messageElement = document.createElement('li');
+        messageElement.classList.add('message');
+        messageElement.classList.add(`${sender}-message`);
+        messageElement.innerText = message;
+        messagesContainer.appendChild(messageElement);
+    }
+
+    function sendMessage() {
+        const userInput = document.getElementById('user-input').value;
+        if (!userInput.trim() || socket.readyState !== WebSocket.OPEN) return;
+
+        displayMessage(userInput, 'user');
+        socket.send(userInput);
+
+        document.getElementById('user-input').value = '';
+    }
+
+    document.getElementById('user-input').addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            sendMessage();
+        }
+    });
+</script>
+</body>
+</html>
