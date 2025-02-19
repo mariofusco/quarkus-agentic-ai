@@ -65,21 +65,7 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-arc</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-opentelemetry</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkiverse.micrometer.registry</groupId>
-            <artifactId>quarkus-micrometer-registry-otlp</artifactId>
-            <version>3.2.4</version>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-observability-devservices-lgtm</artifactId>
-            <scope>provided</scope>
-        </dependency>
+        
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-junit5</artifactId>
@@ -161,6 +147,33 @@
                 <skipITs>false</skipITs>
                 <quarkus.native.enabled>true</quarkus.native.enabled>
             </properties>
+        </profile>
+        <profile>
+            <id>observability</id>
+            <activation>
+                <property>
+                    <name>observability</name>
+                </property>
+            </activation>
+            <properties>
+                <quarkus.otel.logs.enabled>true</quarkus.otel.logs.enabled>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>io.quarkus</groupId>
+                    <artifactId>quarkus-opentelemetry</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>io.quarkiverse.micrometer.registry</groupId>
+                    <artifactId>quarkus-micrometer-registry-otlp</artifactId>
+                    <version>3.2.4</version>
+                </dependency>
+                <dependency>
+                    <groupId>io.quarkus</groupId>
+                    <artifactId>quarkus-observability-devservices-lgtm</artifactId>
+                    <scope>provided</scope>
+                </dependency>                
+            </dependencies>
         </profile>
     </profiles>
 </project>
