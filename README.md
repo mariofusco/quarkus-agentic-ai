@@ -9,9 +9,11 @@
 
 The idea of this project is discussing the most common workflow and agentic AI patterns and architectures, showing for each of them, with a very practical example, how they can be implemented through Quarkus and its LangChain4j integration. Of course a real-world application may use and combine these patterns in multiple ways in order to implement a complex behavior.
 
+All the demos in that project run the LLMs inference locally through an [ollama](https://ollama.com/) server. In particular the demos in the workflow section use a llama3.2 model, while the ones relative to the pure agents one employ qwen2.5 since this last model empirically demonstrated of working better when multiple tool callings are required.
+
 ## Workflows
 
-As anticipated AI workflows are pattern where the employment of different LLM-based services is programmatically coordinated in a predetermined way. This section explores a few of the simplest possible of these workflows. 
+AI workflows are patterns in which different LLM-based services (AI services in the Quarkus lingo) are coordinated programmatically in a predetermined manner. This section explores a few of these constructs.
 
 ### Prompt chaining
 
