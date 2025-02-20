@@ -11,6 +11,6 @@ public interface CategoryRouter {
             Reply with only one of those words and nothing else.
             The user request is {request}.
             """)
-    String classify(String request);
+    RequestCategory classify(String request);
 
 }

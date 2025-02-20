@@ -18,36 +18,22 @@ public class RouterService {
 
     private final TechnicalExpert technicalExpert;
 
-    private final Map<RequestType, UnaryOperator<String>> experts = new HashMap<>();
-
     public RouterService(CategoryRouter categoryRouter, LegalExpert legalExpert, MedicalExpert medicalExpert,
                          TechnicalExpert technicalExpert) {
         this.categoryRouter = categoryRouter;
         this.legalExpert = legalExpert;
         this.medicalExpert = medicalExpert;
         this.technicalExpert = technicalExpert;
-
-        experts.put(RequestType.LEGAL, legalExpert::chat);
-        experts.put(RequestType.MEDICAL, medicalExpert::chat);
-        experts.put(RequestType.TECHNICAL, technicalExpert::chat);
-        experts.put(RequestType.UNKNOWN, ignore -> "I cannot find an appropriate category for this request.");
     }
 
     public UnaryOperator<String> findExpert(String request) {
-        String category = categoryRouter.classify(request);
-        Log.infof("Detected request category: %s", category);
-        return experts.get(RequestType.decode(category));
-    }
-
-    public enum RequestType {
-        LEGAL, MEDICAL, TECHNICAL, UNKNOWN;
-
-        public static RequestType decode(String category) {
-            try {
-                return RequestType.valueOf(category.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                return RequestType.UNKNOWN;
-            }
-        }
+        RequestCategory requestCategory = categoryRouter.classify(request);
+        Log.infof("Detected request category: %s", requestCategory);
+        return switch (requestCategory) {
+            case LEGAL -> legalExpert::chat;
+            case MEDICAL -> medicalExpert::chat;
+            case TECHNICAL -> technicalExpert::chat;
+            default -> ignore -> "I cannot find an appropriate category for this request.";
+        };
     }
 }
