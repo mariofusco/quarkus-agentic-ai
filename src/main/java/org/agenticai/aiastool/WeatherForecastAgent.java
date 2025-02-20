@@ -2,10 +2,11 @@ package org.agenticai.aiastool;
 
 import dev.langchain4j.service.SystemMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
+import io.quarkiverse.langchain4j.ToolBox;
 import org.agenticai.aiastool.geo.GeoCodingService;
 import org.agenticai.aiastool.weather.WeatherForecastService;
 
-@RegisterAiService(tools = { CityExtractorAgent.class, WeatherForecastService.class, GeoCodingService.class}, modelName = "tool-use")
+@RegisterAiService(modelName = "tool-use")
 public interface WeatherForecastAgent {
 
     @SystemMessage("""
@@ -19,6 +20,7 @@ public interface WeatherForecastAgent {
         windSpeed is the speed of wind in kilometers per hour
         weather is the overall weather.
     """)
+    @ToolBox({CityExtractorAgent.class, WeatherForecastService.class, GeoCodingService.class})
     String chat(String query);
 
 }
