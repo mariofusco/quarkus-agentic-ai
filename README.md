@@ -99,7 +99,11 @@ No precipitation expected, and the wind speed will be up to 5.6 km/h.
 The overall weather condition is expected to be cloudy.
 ```
 
-In essence this control flow is quite similar to what described in the prompt chaining workflow, where the user input is sequentially transformed in steps (in this case going from the prompt, to the name of the city contained in that prompt, to the geographical coordinates of that city, to the weather forecasts at those coordinates), but as anticipated this time the major difference is in the fact that the sequence of steps is directly scheduled by the LLM instead of being externally orchestrated in a programmatic way. 
+In essence, this control flow is quite similar to what is described in the prompt chaining workflow, where the user input is sequentially transformed in steps (in this case, going from the prompt to the name of the city contained in that prompt to the geographical coordinates of that city, to the weather forecasts at those coordinates). The significant difference is that the LLM directly orchestrates the sequence of steps instead of being externally orchestrated programmatically.
+
+The observability automatically provided by Quarkus (in this project it is disabled by default, but it can be turned on launching the dev mode with the `-Dobservability` flag) allows to visually trace the sequence of tasks accomplished by the agent in order to execute its task.
+
+![](images/weather-trace.png)
 
 ### A more general purpose AI agent
 
