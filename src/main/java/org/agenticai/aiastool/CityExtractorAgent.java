@@ -3,9 +3,7 @@ package org.agenticai.aiastool;
 import dev.langchain4j.agent.tool.Tool;
 import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
-import jakarta.enterprise.context.ApplicationScoped;
 
-@ApplicationScoped
 @RegisterAiService(chatMemoryProviderSupplier = RegisterAiService.NoChatMemoryProviderSupplier.class)
 public interface CityExtractorAgent {
 
