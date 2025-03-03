@@ -15,6 +15,7 @@
         <quarkus.platform.version>3.18.3</quarkus.platform.version>
         <quarkus.langchain4j.version>0.25.0.CR2</quarkus.langchain4j.version>
         <surefire-plugin.version>3.5.2</surefire-plugin.version>
+        <jakarta.websocket-client-api.version>2.2.0</jakarta.websocket-client-api.version>
         <skipITs>true</skipITs>
     </properties>
 
@@ -88,6 +89,12 @@
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>3.27.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.websocket</groupId>
+            <artifactId>jakarta.websocket-client-api</artifactId>
+            <version>${jakarta.websocket-client-api.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
