@@ -13,7 +13,7 @@ public class WebSearchService {
     @Tool("Perform a web search to retrieve information online")
     String webSearch(String q) throws IOException {
         String webUrl = "https://html.duckduckgo.com/html/?q=" + q;
-        String text = Jsoup.connect(webUrl).get().text();
+        String text = Jsoup.connect(webUrl).get().getElementsByClass("results").text().substring(0, 2000);
         Log.info("Parsed html: " + text);
         return text;
     }
