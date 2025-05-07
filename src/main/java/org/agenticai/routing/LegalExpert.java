@@ -1,9 +1,10 @@
 package org.agenticai.routing;
 
+import dev.langchain4j.agent.tool.Tool;
 import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
 
-@RegisterAiService
+@RegisterAiService(chatMemoryProviderSupplier = RegisterAiService.NoChatMemoryProviderSupplier.class)
 public interface LegalExpert {
 
     @UserMessage("""
@@ -11,6 +12,7 @@ public interface LegalExpert {
             Analyze the following user request under a legal point of view and provide the best possible answer.
             The user request is {request}.
             """)
-    String chat(String request);
+    @Tool("A legal expert")
+    String legalRequest(String request);
 
 }

@@ -3,8 +3,6 @@ package org.agenticai.routing;
 import io.quarkus.logging.Log;
 import jakarta.enterprise.context.ApplicationScoped;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.UnaryOperator;
 
 @ApplicationScoped
@@ -30,9 +28,9 @@ public class RouterService {
         RequestCategory requestCategory = categoryRouter.classify(request);
         Log.infof("Detected request category: %s", requestCategory);
         return switch (requestCategory) {
-            case LEGAL -> legalExpert::chat;
-            case MEDICAL -> medicalExpert::chat;
-            case TECHNICAL -> technicalExpert::chat;
+            case LEGAL -> legalExpert::legalRequest;
+            case MEDICAL -> medicalExpert::medicalRequest;
+            case TECHNICAL -> technicalExpert::technicalRequest;
             default -> ignore -> "I cannot find an appropriate category for this request.";
         };
     }
